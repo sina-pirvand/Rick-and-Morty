@@ -1,11 +1,25 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 const CharacterList = ({ characters }) => {
+  const [showAll, setShowAll] = useState(false);
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
   return (
     <div className="characters-list">
-      {characters.map((item) => (
+      {characters.slice(0, showAll ? characters.length : 5).map((item) => (
         <Character item={item} key={item.id} />
       ))}
+      {characters.length > 5 && (
+        <button
+          onClick={toggleShowAll}
+          className="btn btn--primary"
+          style={{ margin: "0 auto", display: "inherit" }}
+        >
+          {showAll ? "Show Less" : "Show All"}
+        </button>
+      )}
     </div>
   );
 };
@@ -16,7 +30,7 @@ const Character = ({ item }) => {
     <div className="list__item">
       <img src={item.image} alt={item.name} />
       <h3 className="name">
-        <span>{item.gender === "Male" ? "🤵" : "👩‍💼"} </span>
+        <span>{item.gender === "Male" ? "🧑" : "👱‍♀️"} </span>
         <span> {item.name}</span>
       </h3>
       <div className="list-item__info info">

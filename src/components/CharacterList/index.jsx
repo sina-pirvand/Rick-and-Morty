@@ -7,7 +7,13 @@ const CharacterList = ({ characters }) => {
     setShowAll(!showAll);
   };
   return (
-    <div className="characters-list">
+    <div
+      className="characters-list"
+      style={{
+        boxShadow:
+          "inset 0 -3rem linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,1) 100%)",
+      }}
+    >
       {characters.slice(0, showAll ? characters.length : 5).map((item) => (
         <Character item={item} key={item.id} />
       ))}
@@ -15,7 +21,7 @@ const CharacterList = ({ characters }) => {
         <button
           onClick={toggleShowAll}
           className="btn btn--primary"
-          style={{ margin: "0 auto", display: "inherit" }}
+          style={{ margin: "1rem auto", display: "inherit" }}
         >
           {showAll ? "Show Less" : "Show All"}
         </button>

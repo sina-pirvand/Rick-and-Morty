@@ -1,21 +1,19 @@
 import { EyeIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-const CharacterList = ({ characters }) => {
+const CharacterList = ({ characters, onSelectCharacter }) => {
   const [showAll, setShowAll] = useState(false);
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
   return (
-    <div
-      className="characters-list"
-      style={{
-        boxShadow:
-          "inset 0 -3rem linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,1) 100%)",
-      }}
-    >
+    <div className="characters-list">
       {characters.slice(0, showAll ? characters.length : 5).map((item) => (
-        <Character item={item} key={item.id} />
+        <Character
+          item={item}
+          key={item.id}
+          onSelectCharacter={onSelectCharacter}
+        />
       ))}
       {characters.length > 5 && (
         <button
@@ -31,7 +29,7 @@ const CharacterList = ({ characters }) => {
 };
 export default CharacterList;
 
-const Character = ({ item }) => {
+const Character = ({ item, onSelectCharacter }) => {
   return (
     <div className="list__item">
       <img src={item.image} alt={item.name} />
@@ -46,7 +44,12 @@ const Character = ({ item }) => {
         <span> {item.status}</span>
         <span> -{item.species}</span>
       </div>
-      <button className="icon red">
+      <button
+        className="icon red"
+        onClick={() => {
+          onSelectCharacter(item.id);
+        }}
+      >
         <EyeIcon />
       </button>
     </div>

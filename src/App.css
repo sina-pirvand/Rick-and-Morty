@@ -4,6 +4,9 @@
   position: relative;
 }
 
+.toast {
+  max-width: 1000px;
+}
 .navbar {
   display: flex;
   align-items: center;

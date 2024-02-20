@@ -6,46 +6,58 @@ import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
 import Loading from "./components/Loading";
 import "./App.css";
+
 const App = () => {
   const [characters, setcharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const error = (err) => toast.error(err);
+  const [search, setSearch] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  const error = (err) => toast.error(err, { className: "toast" });
+  const handleSelectedCharacter = (id) => {
+    setSelectedId(id);
+  };
+  console.log(selectedId);
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          "https://rickandmortyapi.com/api/character"
+          `https://rickandmortyapi.com/api/character/?name=${search}`
         );
-        // if (!res.ok) throw new Error("something went wrong");
-        // const data = await res.json();
         setcharacters(data.results);
-        setTimeout(() => {}, 1500);
       } catch (err) {
-        setTimeout(() => {
-          // error(err.message);
-          error(err.response.data.error);
-        }, 2000);
+        // setcharacters([]);
+        error(`${err.response.data.error}. Most relevant results are shown`);
       } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
+        setIsLoading(false);
       }
     };
+    if (search.length > 0 && search.length < 3) {
+      toast.error("Atleast 3 letters needed to Search");
+      return;
+    }
     fetchData();
-  }, []);
+  }, [search]);
 
   return (
     <>
       <Toaster />
+      <Navbar
+        numOfResult={characters.length}
+        search={search}
+        setSearch={setSearch}
+      />
       {isLoading ? (
         <Loading />
       ) : (
         <div className="app">
-          <Navbar numOfResult={characters.length} />
           <div className="main">
-            <CharacterList characters={characters} />
-            <CharacterDetail />
+            <CharacterList
+              characters={characters}
+              onSelectCharacter={handleSelectedCharacter}
+            />
+            <CharacterDetail selectedId={selectedId} />
           </div>
         </div>
       )}

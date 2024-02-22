@@ -1,0 +1,14 @@
+.select-container {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+}
+
+.toast {
+  max-width: 1000px;
+}

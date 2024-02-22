@@ -11,13 +11,12 @@ const App = () => {
   const [characters, setcharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(1);
 
   const error = (err) => toast.error(err, { className: "toast" });
   const handleSelectedCharacter = (id) => {
     setSelectedId(id);
   };
-  console.log(selectedId);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +55,7 @@ const App = () => {
             <CharacterList
               characters={characters}
               onSelectCharacter={handleSelectedCharacter}
+              selectedId={selectedId}
             />
             <CharacterDetail selectedId={selectedId} />
           </div>

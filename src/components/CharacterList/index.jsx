@@ -1,7 +1,7 @@
-import { EyeIcon } from "@heroicons/react/24/outline";
+import { ArrowUpRightIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-const CharacterList = ({ characters, onSelectCharacter }) => {
+const CharacterList = ({ characters, onSelectCharacter, selectedId }) => {
   const [showAll, setShowAll] = useState(false);
   const toggleShowAll = () => {
     setShowAll(!showAll);
@@ -13,6 +13,7 @@ const CharacterList = ({ characters, onSelectCharacter }) => {
           item={item}
           key={item.id}
           onSelectCharacter={onSelectCharacter}
+          selectedId={selectedId}
         />
       ))}
       {characters.length > 5 && (
@@ -29,7 +30,7 @@ const CharacterList = ({ characters, onSelectCharacter }) => {
 };
 export default CharacterList;
 
-const Character = ({ item, onSelectCharacter }) => {
+const Character = ({ item, onSelectCharacter, selectedId }) => {
   return (
     <div className="list__item">
       <img src={item.image} alt={item.name} />
@@ -42,15 +43,15 @@ const Character = ({ item, onSelectCharacter }) => {
           {item.satus}
         </span>
         <span> {item.status}</span>
-        <span> -{item.species}</span>
+        <span> - {item.species}</span>
       </div>
       <button
-        className="icon red"
+        className="icon green"
         onClick={() => {
           onSelectCharacter(item.id);
         }}
       >
-        <EyeIcon />
+        {selectedId === item.id ? <EyeIcon /> : <ArrowUpRightIcon />}
       </button>
     </div>
   );

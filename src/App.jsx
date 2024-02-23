@@ -30,6 +30,7 @@ const App = () => {
         error(`${err.response.data.error}. Most relevant results are shown`);
       } finally {
         setIsLoading(false);
+        console.log(characters);
       }
     };
     if (search.length > 0 && search.length < 3) {

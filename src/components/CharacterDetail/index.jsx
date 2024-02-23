@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { ArrowUpCircleIcon, EyeIcon } from "@heroicons/react/24/outline";
-import { episodes } from "../../../data/data";
+import {
+  ArrowUpCircleIcon,
+  ChevronDoubleDownIcon,
+  ChevronDoubleUpIcon,
+} from "@heroicons/react/24/outline";
 import "./characterDetail.css";
 
 const CharacterDetail = ({ selectedId }) => {
   const [character, setCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -14,6 +22,11 @@ const CharacterDetail = ({ selectedId }) => {
           `https://rickandmortyapi.com/api/character/${selectedId}`
         );
         setCharacter(data);
+        const episodesId = data.episode.map((e) => e.split("/").at(-1));
+        const { data: episodeData } = await axios.get(
+          `https://rickandmortyapi.com/api/episode/${episodesId}`
+        );
+        setEpisodes([episodeData].flat());
       } catch (err) {
         toast.error(
           `Could not get Character detail 
@@ -67,7 +80,7 @@ const CharacterDetail = ({ selectedId }) => {
             </button>
           </div>
           <ul>
-            {episodes.map((item, i) => (
+            {episodes.slice(0, showAll ? episodes.length : 4).map((item, i) => (
               <li key={item.id}>
                 <div>
                   {String(i + 1).padStart(2, "0")}: {item.episode}:{item.name}
@@ -77,6 +90,18 @@ const CharacterDetail = ({ selectedId }) => {
               </li>
             ))}
           </ul>
+          {episodes.length > 4 && (
+            <button
+              className="btn btn--primary show-all-btn"
+              onClick={toggleShowAll}
+            >
+              {showAll ? (
+                <ChevronDoubleUpIcon className="icon-sm" />
+              ) : (
+                <ChevronDoubleDownIcon className="icon-sm" />
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>

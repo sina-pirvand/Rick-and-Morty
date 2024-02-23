@@ -8,6 +8,16 @@
   height: 24px;
   width: 24px;
 }
+.icon-sm {
+  height: 18px;
+  width: 18px;
+}
+
+.show-all-btn {
+  padding: 0.75rem 0.5rem !important;
+  margin: 2rem auto 0 auto;
+  display: inherit;
+}
 
 .toast {
   max-width: 1000px;

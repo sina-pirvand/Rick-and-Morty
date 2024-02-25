@@ -22,3 +22,8 @@
 .toast {
   max-width: 1000px;
 }
+
+.favorite-text {
+  color: var(--rose-500) !important;
+  margin-top: 2rem;
+}

@@ -12,25 +12,34 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(1);
+  const [favorite, setFavorite] = useState([]);
 
   const error = (err) => toast.error(err, { className: "toast" });
   const handleSelectedCharacter = (id) => {
     setSelectedId(id);
   };
+  const handleAddFavorite = (character) => {
+    setFavorite((prev) => [...prev, character]);
+  };
+  const isFavorite = favorite.map((item) => item.id).includes(selectedId);
+
   useEffect(() => {
+    const controler = new AbortController();
+    const signal = controler.signal;
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${search}`
+          `https://rickandmortyapi.com/api/character/?name=${search}`,
+          { signal }
         );
         setcharacters(data.results);
       } catch (err) {
         // setcharacters([]);
-        error(`${err.response.data.error}. Most relevant results are shown`);
+        if (!axios.Cancel)
+          error(`${err.response.data.error}. Most relevant results are shown`);
       } finally {
         setIsLoading(false);
-        console.log(characters);
       }
     };
     if (search.length > 0 && search.length < 3) {
@@ -38,6 +47,9 @@ const App = () => {
       return;
     }
     fetchData();
+    return () => {
+      controler.abort();
+    };
   }, [search]);
 
   return (
@@ -47,6 +59,7 @@ const App = () => {
         numOfResult={characters.length}
         search={search}
         setSearch={setSearch}
+        NumOfFavorites={favorite.length}
       />
       {isLoading ? (
         <Loading />
@@ -58,7 +71,11 @@ const App = () => {
               onSelectCharacter={handleSelectedCharacter}
               selectedId={selectedId}
             />
-            <CharacterDetail selectedId={selectedId} />
+            <CharacterDetail
+              selectedId={selectedId}
+              handleAddFavorite={handleAddFavorite}
+              isFavorite={isFavorite}
+            />
           </div>
         </div>
       )}

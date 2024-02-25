@@ -1,5 +1,5 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
-const Navbar = ({ numOfResult, search, setSearch }) => {
+const Navbar = ({ numOfResult, search, setSearch, NumOfFavorites }) => {
   return (
     <nav className="navbar">
       <div className="navbar__logo">Logo</div>
@@ -13,7 +13,7 @@ const Navbar = ({ numOfResult, search, setSearch }) => {
       <div className="navbar__result">Found {numOfResult} Results</div>
       <button className="heart">
         <HeartIcon className="icon" />
-        <span className="badge">4</span>
+        <span className="badge">{NumOfFavorites}</span>
       </button>
     </nav>
   );

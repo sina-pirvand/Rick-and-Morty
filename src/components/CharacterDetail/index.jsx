@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import "./characterDetail.css";
 
-const CharacterDetail = ({ selectedId }) => {
+const CharacterDetail = ({ selectedId, handleAddFavorite, isFavorite }) => {
   const [character, setCharacter] = useState(null);
   const [episodes, setEpisodes] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -37,6 +37,7 @@ const CharacterDetail = ({ selectedId }) => {
     };
     fetchData();
   }, [selectedId]);
+
   return (
     <div style={{ flex: 1 }}>
       <Toaster />
@@ -64,7 +65,18 @@ const CharacterDetail = ({ selectedId }) => {
               <p>{character.location.name}</p>
             </div>
             <div className="actions">
-              <button className="btn btn--primary">Add to Favorite</button>
+              {isFavorite ? (
+                <p className="favorite-text">Favorite Character ❤</p>
+              ) : (
+                <button
+                  className="btn btn--primary"
+                  onClick={() => {
+                    handleAddFavorite(character);
+                  }}
+                >
+                  Add to Favorite
+                </button>
+              )}
             </div>
           </div>
         </div>

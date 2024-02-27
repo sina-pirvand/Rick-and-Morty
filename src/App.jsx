@@ -36,7 +36,7 @@ const App = () => {
         setcharacters(data.results);
       } catch (err) {
         // setcharacters([]);
-        if (!axios.Cancel)
+        if (!axios.isCancel())
           error(`${err.response.data.error}. Most relevant results are shown`);
       } finally {
         setIsLoading(false);

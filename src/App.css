@@ -115,6 +115,13 @@
   color: var(--green-600);
 }
 
+.close-modal-btn {
+  transition: 0.3s;
+}
+.close-modal-btn:hover {
+  rotate: 360deg;
+}
+
 .name,
 .info {
   color: var(--slate-200);

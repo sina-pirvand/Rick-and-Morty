@@ -9,12 +9,16 @@ const CharacterList = ({ characters, onSelectCharacter, selectedId }) => {
   return (
     <div className="characters-list">
       {characters.slice(0, showAll ? characters.length : 5).map((item) => (
-        <Character
-          item={item}
-          key={item.id}
-          onSelectCharacter={onSelectCharacter}
-          selectedId={selectedId}
-        />
+        <Character item={item} key={item.id}>
+          <button
+            className="icon green"
+            onClick={() => {
+              onSelectCharacter(item.id);
+            }}
+          >
+            {selectedId === item.id ? <EyeIcon /> : <ArrowUpRightIcon />}
+          </button>
+        </Character>
       ))}
       {characters.length > 5 && (
         <button
@@ -30,7 +34,7 @@ const CharacterList = ({ characters, onSelectCharacter, selectedId }) => {
 };
 export default CharacterList;
 
-const Character = ({ item, onSelectCharacter, selectedId }) => {
+export const Character = ({ item, children }) => {
   return (
     <div className="list__item">
       <img src={item.image} alt={item.name} />
@@ -45,14 +49,7 @@ const Character = ({ item, onSelectCharacter, selectedId }) => {
         <span> {item.status}</span>
         <span> - {item.species}</span>
       </div>
-      <button
-        className="icon green"
-        onClick={() => {
-          onSelectCharacter(item.id);
-        }}
-      >
-        {selectedId === item.id ? <EyeIcon /> : <ArrowUpRightIcon />}
-      </button>
+      {children}
     </div>
   );
 };

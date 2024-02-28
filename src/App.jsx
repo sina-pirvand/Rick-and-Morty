@@ -4,6 +4,7 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
+import Modal from "./components/Modal";
 import Loading from "./components/Loading";
 import "./App.css";
 
@@ -21,7 +22,12 @@ const App = () => {
   const handleAddFavorite = (character) => {
     setFavorite((prev) => [...prev, character]);
   };
+  console.log(favorite);
   const isFavorite = favorite.map((item) => item.id).includes(selectedId);
+
+  const handleRemoveFavorite = (id) => {
+    setFavorite((prev) => prev.filter((fav) => fav.id !== id));
+  };
 
   useEffect(() => {
     const controler = new AbortController();
@@ -59,7 +65,8 @@ const App = () => {
         numOfResult={characters.length}
         search={search}
         setSearch={setSearch}
-        NumOfFavorites={favorite.length}
+        Favorites={favorite}
+        handleRemoveFavorite={handleRemoveFavorite}
       />
       {isLoading ? (
         <Loading />

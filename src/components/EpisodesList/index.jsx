@@ -11,7 +11,11 @@ const EpisodesList = ({ episodes }) => {
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
+
+  //! SORT EPISODES
+  // could be calculated from other states so no new state is needed
   let sortedEpisodes;
+  // created => a property included in API data object
   sortBy
     ? (sortedEpisodes = [...episodes].sort(
         (a, b) => new Date(a.created) - new Date(b.created)
@@ -19,6 +23,7 @@ const EpisodesList = ({ episodes }) => {
     : (sortedEpisodes = [...episodes].sort(
         (a, b) => new Date(b.created) - new Date(a.created)
       ));
+
   return (
     <div className="character-episodes">
       <div className="character-episodes">

@@ -15,11 +15,15 @@
   padding: 1rem;
   border-radius: 1rem;
   margin: 2rem 0;
+  position: relative;
 }
 
-.navbar__logo {
-  color: var(--slate-300);
-  font-weight: 700;
+.navbar__logo img {
+  height: 140px;
+  mix-blend-mode: lighten;
+  position: absolute;
+  top: -42%;
+  left: -25px;
 }
 
 .navbar__result {

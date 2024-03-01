@@ -6,6 +6,12 @@ const CharacterList = ({ characters, onSelectCharacter, selectedId }) => {
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <div className="characters-list">
       {characters.slice(0, showAll ? characters.length : 5).map((item) => (
@@ -14,6 +20,7 @@ const CharacterList = ({ characters, onSelectCharacter, selectedId }) => {
             className="icon green"
             onClick={() => {
               onSelectCharacter(item.id);
+              handleScrollTop();
             }}
           >
             {selectedId === item.id ? <EyeIcon /> : <ArrowUpRightIcon />}

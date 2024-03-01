@@ -7,7 +7,7 @@ const Navbar = ({
   numOfResult,
   search,
   setSearch,
-  Favorites,
+  favorites,
   handleRemoveFavorite,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,22 +25,28 @@ const Navbar = ({
         <div className="navbar__result">Found {numOfResult} Results</div>
         <button className="heart" onClick={() => setIsOpen((s) => !s)}>
           <HeartIcon className="icon" />
-          <span className="badge">{Favorites.length}</span>
+          <span className="badge">{favorites.length}</span>
         </button>
       </nav>
       <Modal setIsOpen={setIsOpen} isOpen={isOpen} title={"Favorites"}>
-        {Favorites.map((item) => (
-          <Character key={item.id} item={item}>
-            <button
-              className="icon red"
-              onClick={() => {
-                handleRemoveFavorite(item.id);
-              }}
-            >
-              <TrashIcon />
-            </button>
-          </Character>
-        ))}
+        {!favorites.length ? (
+          <p className="text-white">
+            You have no favorite character Yet (・︵・)
+          </p>
+        ) : (
+          favorites.map((item) => (
+            <Character key={item.id} item={item}>
+              <button
+                className="icon red"
+                onClick={() => {
+                  handleRemoveFavorite(item.id);
+                }}
+              >
+                <TrashIcon />
+              </button>
+            </Character>
+          ))
+        )}
       </Modal>
     </>
   );

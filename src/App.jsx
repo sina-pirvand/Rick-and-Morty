@@ -4,7 +4,6 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import CharacterList from "./components/CharacterList";
 import CharacterDetail from "./components/CharacterDetail";
-import Modal from "./components/Modal";
 import Loading from "./components/Loading";
 import "./App.css";
 
@@ -13,7 +12,10 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(1);
-  const [favorite, setFavorite] = useState([]);
+  // const [favorite, setFavorite] = useState([]);
+  const [favorite, setFavorite] = useState(
+    () => JSON.parse(localStorage.getItem("favorites")) || []
+  );
 
   const error = (err) => toast.error(err, { className: "toast" });
   const handleSelectedCharacter = (id) => {
@@ -58,6 +60,10 @@ const App = () => {
     };
   }, [search]);
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorite));
+  }, [favorite]);
+
   return (
     <>
       <Toaster />
@@ -65,7 +71,7 @@ const App = () => {
         numOfResult={characters.length}
         search={search}
         setSearch={setSearch}
-        Favorites={favorite}
+        favorites={favorite}
         handleRemoveFavorite={handleRemoveFavorite}
       />
       {isLoading ? (
